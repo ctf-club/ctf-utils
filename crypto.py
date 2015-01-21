@@ -122,3 +122,19 @@ def xor_list(s1, s2):
 def blocks(m, bsize=16):
     """Splits a message into an array of blocks"""
     return [m[i:i + bsize] for i in range(0, len(m), bsize)]
+
+def egcd(a, b):
+    """Extended euclidean algorithm"""
+    if a == 0:
+        return (b, 0, 1)
+    else:
+        g, y, x = egcd(b % a, a)
+        return (g, x - (b // a) * y, y)
+
+def mult_inv(a, m):
+    """Multiplicative inverse"""
+    g, x, y = egcd(a, m)
+    if g != 1:
+        raise Exception('modular inverse does not exist')
+    else:
+        return x % m
