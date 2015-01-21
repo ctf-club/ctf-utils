@@ -100,7 +100,7 @@ def b2i(s):
     """Takes a string of bytes and converts it to an arbitrary precision int
     (with no trailing 'L')
     """
-    return int(s.encode('hex'), 16).rstrip('L')
+    return int(s.encode('hex').rstrip('L'), 16)
 
 
 def i2b(i):
