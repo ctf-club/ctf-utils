@@ -59,9 +59,16 @@ def split(text, keylen):
     return results
 
 
+def shift(text, key):
+    """Shifts each letter of the text by the key"""
+    assert 0 <= key <= 26
+    return ''.join([chr(((ord(c) - ord('a') + key) % 26) + ord('a')) for c in text])
+
+
 def repeated_xor(m, k):
     """Applies the key k to the message m with a repeated XOR"""
     return map(lambda t: chr(ord(t[0]) ^ ord(t[1])), zip(m, itertools.cycle(k)))
+
 
 def crack_repeated_xor(ciphertext, keylen, non_printable_chars=[10]):
     """Given a ciphertext and a key length, returns a list of lists where each
@@ -138,3 +145,17 @@ def mult_inv(a, m):
         raise Exception('modular inverse does not exist')
     else:
         return x % m
+
+
+def crack_caeser_cipher(s):
+    s = s.lower()
+    res = []
+    for i in range(0, 26):
+        cipher = shift(s, i)
+        freqs = letter_frequencies(cipher)
+        total = 0
+        for (k, v) in freqs.iteritems():
+            total += (english_freqs[k] - v)**2
+        res.append((i, total, cipher))
+
+    return sorted(res, key=lambda x: x[1])
