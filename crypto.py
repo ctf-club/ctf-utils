@@ -148,6 +148,7 @@ def mult_inv(a, m):
 
 
 def crack_caeser_cipher(s):
+    """Cracks caesar ciphers"""
     s = s.lower()
     res = []
     for i in range(0, 26):
@@ -159,3 +160,40 @@ def crack_caeser_cipher(s):
         res.append((i, total, cipher))
 
     return sorted(res, key=lambda x: x[1])
+
+
+def vigenere_encrypt(s, key):
+    """Encrypts/decrypts text using a Vigenere cipher with the given key"""
+    s = s.lower()
+    key = key.lower()
+    return ''.join([chr(((ord(c) - ord('a') + ord(l) - ord('a')) % 26) + ord('a'))
+                    for (c, l) in zip(s, itertools.cycle(key))])
+
+
+def get_vigenere_key_length(s):
+    """Returns a list of possible key lengths given a Vigenere encrypted ciphertext"""
+    return [42] # TODO
+
+
+def crack_vigenere_cipher(s, keylen=None):
+    """Cracks Vigenere ciphers. If no keylen is provided, this function automatically calculates
+    the key length
+    """
+    if keylen == None:
+        keylens = get_vigenere_key_length(s)
+    else:
+        keylens = [keylen]
+
+    keys = []
+    s = s.lower()
+    for keylen in keylens:
+        ciphers = split(s, keylen)
+        encrypt_key = ''
+        decrypt_key = ''
+        for cipher in ciphers:
+            res = crack_caeser_cipher(cipher)
+            decrypt_key += chr(res[0][0] + ord('a'))
+            encrypt_key += chr(26 - res[0][0] + ord('a'))
+        keys.append((encrypt_key, decrypt_key, vigenere_encrypt(s, decrypt_key)))
+
+    return keys
