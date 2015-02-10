@@ -67,7 +67,7 @@ def shift(text, key):
 
 def repeated_xor(m, k):
     """Applies the key k to the message m with a repeated XOR"""
-    return map(lambda t: chr(ord(t[0]) ^ ord(t[1])), zip(m, itertools.cycle(k)))
+    return ''.join(map(lambda t: chr(ord(t[0]) ^ ord(t[1])), zip(m, itertools.cycle(k))))
 
 
 def crack_repeated_xor(ciphertext, keylen, non_printable_chars=[10]):
@@ -93,7 +93,7 @@ def crack_repeated_xor(ciphertext, keylen, non_printable_chars=[10]):
             good = True
             for c in res:
                 if not (ord(c) in non_printable_chars or
-                        (ord(c) >= 32 and ord(c) <= 127)):
+                        (ord(c) >= 32 and ord(c) < 127)):
                     good = False
                     break
 
@@ -130,6 +130,7 @@ def blocks(m, bsize=16):
     """Splits a message into an array of blocks"""
     return [m[i:i + bsize] for i in range(0, len(m), bsize)]
 
+
 def egcd(a, b):
     """Extended euclidean algorithm"""
     if a == 0:
@@ -137,6 +138,7 @@ def egcd(a, b):
     else:
         g, y, x = egcd(b % a, a)
         return (g, x - (b // a) * y, y)
+
 
 def mult_inv(a, m):
     """Multiplicative inverse"""
