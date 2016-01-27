@@ -174,7 +174,6 @@ def vigenere_encrypt(s, key):
 
 def get_vigenere_key_length(s):
     """Returns a list of possible key lengths given a Vigenere encrypted ciphertext"""
-    def get_key_len(text):
     search_len = 3
     repeat_dists = [0]*len(text)
     dists = []
