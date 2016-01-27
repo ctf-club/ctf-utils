@@ -174,7 +174,22 @@ def vigenere_encrypt(s, key):
 
 def get_vigenere_key_length(s):
     """Returns a list of possible key lengths given a Vigenere encrypted ciphertext"""
-    return [42] # TODO
+    search_len = 3
+    repeat_dists = [0]*len(text)
+    dists = []
+    for i in range(0, len(text)):
+        for j in range(i, len(text)):
+            if (i != j and text[i:i+3] == text[j: j+3]):
+                dists.append(j - i)
+
+    for i in dists:
+        for j in range(2, len(text)):
+            if i % j == 0:
+                repeat_dists[j] += 1
+
+    max_val = max(repeat_dists)
+    keys_len = [repeat_dists.index(max_val)]
+    return keys_len
 
 
 def crack_vigenere_cipher(s, keylen=None):
@@ -195,7 +210,7 @@ def crack_vigenere_cipher(s, keylen=None):
         for cipher in ciphers:
             res = crack_caeser_cipher(cipher)
             decrypt_key += chr(res[0][0] + ord('a'))
-            encrypt_key += chr(26 - res[0][0] + ord('a'))
+            encrypt_key += chr((26 - res[0][0]) % 26 + ord('a'))
         keys.append((encrypt_key, decrypt_key, vigenere_encrypt(s, decrypt_key)))
 
     return keys
