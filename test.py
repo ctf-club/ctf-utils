@@ -7,7 +7,6 @@ def test_letter_frequencies():
 		assert j == 1.0/26.0
 
 def test_split():
-	empty = ""
 	alphabet = "abcdefghijklmnopqrstuvwxyz"
 	
 	assert split(empty, 4) == ["","","",""]
@@ -45,7 +44,6 @@ def test_mult_inv():
 	empty = ""
 
 def test_crack_caeser_cipher():
-	empty = ""
 	with open("cae_cipher.txt", 'r') as file:
 		text = file.read().replace('\n','') 
 	with open("plain.txt", 'r') as file:
@@ -54,7 +52,6 @@ def test_crack_caeser_cipher():
 	assert crack_caeser_cipher(text)[0][2] == plain
 
 def test_vigenere_encrypt():
-	empty = ""
 	with open("vig_cipher.txt", 'r') as file:
 		text = file.read().replace('\n','') 
 	with open("plain.txt", 'r') as file:
@@ -69,7 +66,6 @@ def test_get_vigenere_key_length():
 
 
 def test_crack_vigenere_cipher():
-	empty = ""
 	with open("vig_cipher.txt", 'r') as file:
 		text = file.read().replace('\n','') 
 	with open("plain.txt", 'r') as file:
