@@ -175,15 +175,15 @@ def vigenere_encrypt(s, key):
 def get_vigenere_key_length(s):
     """Returns a list of possible key lengths given a Vigenere encrypted ciphertext"""
     search_len = 3
-    repeat_dists = [0]*len(text)
+    repeat_dists = [0]*len(s)
     dists = []
-    for i in range(0, len(text)):
-        for j in range(i, len(text)):
-            if (i != j and text[i:i+3] == text[j: j+3]):
+    for i in range(0, len(s)):
+        for j in range(i, len(s)):
+            if (i != j and s[i:i+3] == s[j: j+3]):
                 dists.append(j - i)
 
     for i in dists:
-        for j in range(2, len(text)):
+        for j in range(2, len(s)):
             if i % j == 0:
                 repeat_dists[j] += 1
 
